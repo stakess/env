@@ -1,0 +1,474 @@
+reflected xss
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Social Media Page</title>
+</head>
+<body>
+    <h1>Social Media Page</h1>
+ 
+    <?php
+    if (isset($_POST['message'])) {
+        $message = $_POST['message'];
+        file_put_contents('messages.txt', $message . PHP_EOL, FILE_APPEND);
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+    }
+    ?>
+ 
+    <form action="" method="POST">
+        <label for="message">Post a message:</label><br>
+        <input type="text" id="message" name="message"><br><br>
+        <input type="submit" value="Post">
+    </form>
+ 
+    <div id="posts">
+        <h2>Messages:</h2>
+        <?php
+        if (file_exists('messages.txt')) {
+            $messages = file('messages.txt', FILE_IGNORE_NEW_LINES);
+            foreach ($messages as $msg) {
+                echo "<p>$msg</p>";
+            }
+        }
+        ?>
+    </div>
+</body>
+</html>
+### get and post
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form Validation</title>
+<style>
+  /* Body and Form Styling */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    padding: 20px;
+  }
+ 
+  /* Form Container Styling */
+  form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 0 auto;
+  }
+ 
+  /* Label Styling */
+  label {
+    font-weight: bold;
+  }
+ 
+  /* Input Field Styling */
+  input[type="text"],
+  input[type="email"],
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+ 
+  /* Submit Button Styling */
+  input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+ 
+  /* Submit Button Hover Effect */
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+<h2>Validation Form</h2>
+<form action="process.php" method="post">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+ 
+ 
+PROCESS.PHP
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form Validation</title>
+</head>
+<body>
+<h2>Validation Result</h2>
+<?php
+// Validate form data
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+ 
+    // Simple validation
+    if (empty($name) || empty($email)) {
+        echo "Please fill in all fields.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Invalid email format.";
+    } else {
+        // Validation successful, display submitted data
+        echo "Name: " . $name . "<br>";
+        echo "Email: " . $email;
+    }
+}
+?>
+</body>
+</html>
+/////get
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form Validation</title>
+<style>
+  /* Body and Form Styling */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    padding: 20px;
+  }
+ 
+  /* Form Container Styling */
+  form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 0 auto;
+  }
+ 
+  /* Label Styling */
+  label {
+    font-weight: bold;
+  }
+ 
+  /* Input Field Styling */
+  input[type="text"],
+  input[type="email"],
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+ 
+  /* Submit Button Styling */
+  input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+ 
+  /* Submit Button Hover Effect */
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+<h2>Validation Form</h2>
+<form action="process2.php" method="get">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+ 
+ 
+PROCESS2.PHP
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form Validation</title>
+</head>
+<body>
+<h2>Validation Result</h2>
+<?php
+// Validate form data
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+$name = $_GET['name'];
+$email = $_GET['email'];
+// Simple validation
+if (empty($name) || empty($email)) {
+echo "Please fill in all fields.";
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+echo "Invalid email format.";
+} else {
+// Validation successful, display data
+echo "Name: " . $name . "<br>";
+echo "Email: " . $email;
+}
+}
+?>
+</body>
+</html>
+/////
+<body>
+    <div class="container">
+        <h1>Online Learning Management System</h1>
+        <div id="menu">
+            <button onclick="applyCourse()">Apply Course</button>
+            <button onclick="listCourses()">List Enrolled Courses</button>
+            <button onclick="exitSystem()">Exit</button>
+        </div>
+        <div id="output"></div>
+    </div>
+ 
+    <script>
+        // Define maximum length of course name and maximum number of courses
+        const MAX_COURSE_NAME_LENGTH = 50;
+        const MAX_COURSES = 5;
+ 
+        // Array to store courses
+        let courses = [];
+ 
+        // Function to apply for a course
+        function applyCourse() {
+            if (courses.length >= MAX_COURSES) {
+                displayOutput("Maximum number of courses reached. Cannot apply for more.");
+                return;
+            }
+ 
+            let name = prompt("Enter your name:");
+            if (!name) {
+                alert("Please enter your name.");
+                return;
+            }
+ 
+            let email = prompt("Enter your email (must be @vupune.ac.in):");
+            if (!email) {
+                alert("Please enter your email.");
+                return;
+            }
+            if (!email.endsWith("@vupune.ac.in")) {
+                alert("Invalid email. Email must end with @vupune.ac.in.");
+                return;
+            }
+ 
+            let phone = prompt("Enter your phone number (10 digits):");
+            if (!phone) {
+                alert("Please enter your phone number.");
+                return;
+            }
+            if (phone.length !== 10 || isNaN(phone)) {
+                alert("Invalid phone number. Please enter a 10-digit number.");
+                return;
+            }
+ 
+            let courseCode = prompt("Enter the course code (must start with BTECCE22):");
+            if (!courseCode) {
+                alert("Please enter the course code.");
+                return;
+            }
+            if (!courseCode.startsWith("BTECCE22")) {
+                alert("Invalid course code. Course code must start with BTECCE22.");
+                return;
+            }
+ 
+            let selectedCourse = prompt("Select the course you want to apply for (e.g., Computer Science):");
+            if (!selectedCourse) {
+                alert("Please select the course.");
+                return;
+            }
+ 
+            // Add course to the array
+            courses.push({ name, email, phone, courseCode, selectedCourse });
+            displayOutput("Course applied successfully!");
+        }
+ 
+        // Function to list enrolled courses
+        function listCourses() {
+            if (courses.length === 0) {
+                displayOutput("No courses applied yet.");
+                return;
+            }
+ 
+            let output = "<h2>Enrolled Courses:</h2>";
+            output += "<ul class='course-list'>";
+            courses.forEach(course => {
+                output += `<li>${course.name} - ${course.selectedCourse}</li>`;
+            });
+            output += "</ul>";
+            displayOutput(output);
+        }
+ 
+        // Function to exit the system
+        function exitSystem() {
+            alert("Exiting...");
+            // Additional cleanup or actions can be added here if needed
+        }
+ 
+        // Function to display output
+        function displayOutput(output) {
+            document.getElementById("output").innerHTML = output;
+        }
+    </script>
+</body>
+</html>
+ 
+ 
+ 
+Q18} Implement a stack buffer overflow attack :-
+ 
+ 
+ 
+ 
+CODE :-
+ 
+ 
+#include <stdio.h>
+#include<conio.h>
+#define MAX_SIZE 100
+ 
+// Global variables
+int stack[MAX_SIZE];
+int top = -1; // Stack is initially empty
+ 
+// Function to check if the stack is empty
+int isEmpty() {
+    return top == -1;
+}
+ 
+// Function to check if the stack is full
+int isFull() {
+    return top == MAX_SIZE - 1;
+}
+ 
+ 
+void push(int data) {
+    if (isFull()) {
+	printf("Error: Stack Overflow\n");
+	return;
+    }
+ 
+    stack[++top] = data;
+}
+ 
+ 
+int pop() {
+    if (isEmpty()) {
+	printf("Error: Stack Underflow\n");
+	return -1;
+    }
+ 
+    return stack[top--];
+}
+ 
+ 
+void display() {
+   int i;
+    if (isEmpty()) {
+	printf("Stack is empty.\n");
+	return;
+    }
+ 
+    printf("Stack elements: ");
+    for (i = top; i >= 0; i--) {
+	printf("%d ", stack[i]);
+    }
+    printf("\n");
+}
+ 
+int main() {
+    int choice, data;
+    clrscr();
+ 
+    do {
+	printf("\nStack Operations\n");
+	printf("1. Push\n");
+	printf("2. Pop\n");
+	printf("3. Display\n");
+	printf("4. Exit\n");
+	printf("Enter your choice: ");
+	scanf("%d", &choice);
+ 
+	switch (choice) {
+	    case 1:
+		printf("Enter data to push: ");
+		scanf("%d", &data);
+		push(data);
+		break;
+	    case 2:
+		data = pop();
+		if (data != -1)
+		    printf("Popped element: %d\n", data);
+		break;
+	    case 3:
+		display();
+		break;
+	    case 4:
+		printf("Exiting program.\n");
+		break;
+	    default:
+		printf("Invalid choice. Please try again.\n");
+	}
+    } while (choice != 4);
+ 
+    return 0;
+    getch();
+}
+///ecommerce
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecomerse website </title>
+</head>
+<body>
+    <div id="title">
+        <h3> Ecommerce buisness </h3>
+    </div>
+    <br>
+    <div>
+    <form id="login page" onsubmit="submitfunction()" method="get">
+        <label> Login :</label>
+        <br>
+        <label>User name </label>
+        <input type="text" name="user_name" id ="uname">
+        <br>
+        <label>pass </label>
+        <input type="text" name="pass" id ="pass">
+        <br>
+        <button type="submit">login</button>
+    </form>
+    </div>
+    <script>
+        function submitfunction(){
+            var user_name = document.getElementById("uname").value;
+            var pass = document.getElementById("pass").value;
+            if (user_name === "" || pass === ""){
+                alert("invalid input credentials");
+                return false 
+            }
+            alert(" user validated ")
+            return true;
+        }
+    </script>
+</body>
+</html>
